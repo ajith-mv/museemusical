@@ -45,6 +45,7 @@ class MultiSheetProductImport implements ToModel, WithHeadingRow
         $sub_category       = $row['sub_category'] ?? null;
         $tax                = 18;
         if( isset( $category ) && !empty( $category ) ) {
+
             #check taxt exits if not create 
             $taxPercentage  = $tax;
             $checkTax       = Tax::where('pecentage', $taxPercentage)->first();
@@ -121,16 +122,15 @@ class MultiSheetProductImport implements ToModel, WithHeadingRow
             }
 
             #check product exist or create new one           
-            $sku            = generateProductSku(trim($row['brand']), trim($row['sku']));
+           
             $amount         = $row['mrp'] ?? $row['tax_inclexcl'] ?? 100;
             $productPriceDetails = getAmountExclusiveTax((float)$amount, $taxPercentage ?? 0 );
             
-            $productInfo = Product::where('sku', $sku)->first();
-
+            $productInfo = Product::where('sku',$row['sku'])->first();
             $ins['product_name'] = trim($row['product_name']);
             $ins['hsn_code'] = $row['hsn'];
             $ins['product_url'] = Str::slug($row['product_name']);
-            $ins['sku'] = $sku;
+
             $ins['price'] = $productPriceDetails['basePrice'] ?? 0;
             $ins['mrp'] = $row['mrp'] ?? 0;
             $ins['sale_price'] = $row['discounted_price'] ?? 0;
@@ -150,11 +150,13 @@ class MultiSheetProductImport implements ToModel, WithHeadingRow
             $ins['specification'] = $row['long_description'] ?? null;
             $ins['added_by'] = Auth::id();
 			if( isset( $productInfo ) && !empty( $productInfo ) ) {
-                
+                $ins['sku'] = $row['sku'];
             	DB::table('products')->where('id', $productInfo->id)->update($ins);
             	$product_id = $productInfo->id;
             
             } else {
+                $sku            = generateProductSku(trim($row['brand']), trim($row['sku']));
+                $ins['sku'] = $sku;
             	$product_id     = Product::create($ins)->id;
             }
             

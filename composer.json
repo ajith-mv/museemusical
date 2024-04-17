@@ -18,7 +18,7 @@
         "laravel/ui": "^3.4",
         "maatwebsite/excel": "^3.1",
         "owen-it/laravel-auditing": "^13.0",
-        "razorpay/razorpay": "^2.8",
+        "razorpay/razorpay": "^2.9",
         "romanzipp/laravel-queue-monitor": "^2.3",
         "seshac/laravel-shiprocket-api": "^2.0",
         "symfony/psr-http-message-bridge": "^2.1",
