@@ -137,7 +137,7 @@ class MultiSheetProductImport implements ToModel, WithHeadingRow
             $ins['sale_start_date'] = ( isset($row['start_date']) && !empty( $row['start_date']) ) ? date('Y-m-d', strtotime($row['start_date'])) : null;
             $ins['sale_end_date'] = ( isset($row['end_date']) && !empty( $row['end_date']) ) ? date('Y-m-d', strtotime($row['end_date'])) : null;
             $ins['status'] = (isset($row['status']) && strtolower($row['status']) == 'active') ? 'published' : 'unpublished';
-            $ins['quantity'] = 1;
+            $ins['quantity'] =  $row['qty'] ?? 0;
             $ins['has_video_shopping'] = $row['video_shopping'] ?? 'no';
             $ins['stock_status'] = 'in_stock';
             $ins['brand_id'] = $brand_id;
