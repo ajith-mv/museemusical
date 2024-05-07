@@ -24,8 +24,8 @@ class ProductCollectionResource extends JsonResource
         $tmp[ 'show_home_page' ]    = $this->show_home_page;
         if( isset($this->collectionProducts) && !empty( $this->collectionProducts )) {
             foreach ($this->collectionProducts as $items ) {
+                if($items->product){
                 $category = $items->product->productCategory;
-                // dd( $category->id );
                 $salePrices             = getProductPrice( $items->product );
 
                 $pro                    = [];
@@ -56,6 +56,7 @@ class ProductCollectionResource extends JsonResource
                 $pro['image']           = $path;
 
                 $tmp['products'][]      = $pro; 
+               }
             }
         }
 
